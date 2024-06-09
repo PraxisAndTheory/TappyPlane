@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://c2hiap2cl74qb"]
+
+[ext_resource type="Script" path="res://scenes/game/game.gd" id="1_1ph83"]
+[ext_resource type="Texture2D" uid="uid://dplc4qc85qs2i" path="res://assets/background/rocks_2.png" id="1_al1y4"]
+[ext_resource type="PackedScene" uid="uid://bk7e3rhwmhnxy" path="res://scenes/plane/plane.tscn" id="2_ywobk"]
+[ext_resource type="PackedScene" uid="uid://bckom0q1t52p5" path="res://scenes/barrier/barrier.tscn" id="3_odvo5"]
+[ext_resource type="PackedScene" uid="uid://c8rt1yya00c3n" path="res://scenes/scrollingbg/scrolling_bg.tscn" id="4_gi0go"]
+[ext_resource type="PackedScene" uid="uid://5s2bbhvogvot" path="res://scenes/pipes/pipes.tscn" id="4_hvbib"]
+[ext_resource type="PackedScene" uid="uid://cmkg2kgrbee52" path="res://scenes/hud/hud.tscn" id="6_tsb7t"]
+[ext_resource type="PackedScene" uid="uid://bddqj8c4gb0dm" path="res://scenes/gameover/game_over.tscn" id="7_86eb6"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_1ph83")
+pipes_scene = ExtResource("4_hvbib")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(260, 400)
+texture = ExtResource("1_al1y4")
+
+[node name="Plane" parent="." instance=ExtResource("2_ywobk")]
+position = Vector2(60, 410)
+
+[node name="Barrier" parent="." instance=ExtResource("3_odvo5")]
+position = Vector2(0, -30)
+
+[node name="Floor" parent="." instance=ExtResource("3_odvo5")]
+position = Vector2(0, 863)
+
+[node name="PipesHolder" type="Node" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 1.2
+autostart = true
+
+[node name="SpawnU" type="Marker2D" parent="."]
+position = Vector2(530, 340)
+
+[node name="SpawnL" type="Marker2D" parent="."]
+position = Vector2(530, 540)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" parent="CanvasLayer" instance=ExtResource("6_tsb7t")]
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("7_86eb6")]
+
+[node name="ScrollingBg" parent="." instance=ExtResource("4_gi0go")]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
